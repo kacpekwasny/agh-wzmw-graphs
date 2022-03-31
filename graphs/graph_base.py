@@ -26,6 +26,12 @@ class GraphBase:
     def remove_node(self):
         raise NotImplemented
 
+    """
+    Raise an NodeError when nodes are not members of the vertices of the graph.
+        raises:
+            NodeError:              when nodes are not members of the vertices of the graph
+
+    """
     def nodes_are_members(self, *nodes):
         for n in nodes:
             if n not in self.V:
@@ -33,6 +39,9 @@ class GraphBase:
 
     """
     Create an edge, that connects any number of nodes.
+    This function does not add Nodes to each others neighbors, the new_edge_func has to do it.
+
+
         params:
             nodes:          List[Node]                  - any number of nodes, depending on the child class is supposed to implement restrictions for its specific graph type
             new_edge_func:  lambda List[Node]: [Edge]   - function that will take nodes and return an Child of Edge type, it allows for the child class to implement using specific Edge subclass or smthing
@@ -43,12 +52,13 @@ class GraphBase:
 
         returns:
             [Edge] the created edge
+    
     """
     def connect_nodes(self, *nodes, new_edge_func=None):
         if new_edge_func is None:
             raise NotImplementedError("new_edge_func is None.")
         self.nodes_are_members(*nodes)
-        e = Edge(*nodes)
+        e = new_edge_func(*nodes)
         self.E.append(e)
         return e
 

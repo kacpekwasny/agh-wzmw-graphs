@@ -1,10 +1,18 @@
-from ..errors import NodeError
+from typing import Type
 
+from ..errors import GraphError
+
+class Node: pass
 class Node:
-    def __init__(self, *, name=None, id=None) -> None:
+    def __init__(self, parent_graph) -> None:
+        self.parent_graph = parent_graph
         self.neighbours = []
-        if id is None:
-            raise NodeError("No id was passed when creating a Node(id=???).")
-        self.id = id
-        self.name = name if name is not None else f"Node id={id}"
+    
+    """
+    add_neighbours_ adds nodes
+    """
+    def add_neighbours_(self, *nodes: Type[Node]):
+        for n in nodes:
+            if n.parent_graph is not self.parent_graph:
+        self.neighbours += nodes
     
