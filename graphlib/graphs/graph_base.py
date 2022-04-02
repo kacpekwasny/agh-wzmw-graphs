@@ -64,7 +64,7 @@ class GraphBase:
         
         raise EdgeNotMemberOfGraphError
 
-    def node(self, id_) -> node.Node:
+    def get_node(self, id_) -> node.Node:
         """
         Get node by id:
             params:
