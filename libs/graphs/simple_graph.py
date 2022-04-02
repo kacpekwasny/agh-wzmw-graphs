@@ -16,39 +16,36 @@ class SimpleGraph(GraphBase):
         for e in self.E:
             if new_e.equal_to(e):
                 raise NodesAllreadyConnectedGraphError
-        n1.add_neighbours(n2)
-        n2.add_neighbours(n1)
-        return super().add_edge(new_e)
+        super().add_edge(new_e)
     
-    """
-    remove edge, and disconnect nodes
-        params:
-            e: SimpleEdege - edge to be removed from graph
-
-        raises:
-            GraphError:
-                - Edge not a member of this graph
-    """
     def remove_edge(self, e: se.SimpleEdge):
+        """
+        remove edge, and disconnect nodes
+            params:
+                e: SimpleEdege - edge to be removed from graph
+
+            raises:
+                GraphError:
+                    - Edge not a member of this graph
+        """
         if e in self.E:    
-            e.n1.neighbours.remove(e.n2)
-            e.n2.neighbours.remove(e.n1)
+            e.destroy()
             self.E.remove(e)
             return
         
         raise EdgeNotMemberOfGraphError
 
-    """
-    remove edge if nodes connected
-        params:
-            n1, n2: Node
-
-        raises:
-            GraphError
-                - At least one node is not a memeber of graph
-                - Nodes are not connected
-    """
     def disconnect_nodes(self, n1: node.Node, n2: node.Node):
+        """
+        remove edge if nodes connected
+            params:
+                n1, n2: Node
+
+            raises:
+                GraphError
+                    - At least one node is not a memeber of graph
+                    - Nodes are not connected
+        """
         self.nodes_are_members(n1, n2)
         e: se.SimpleEdge
         for e in self.E:

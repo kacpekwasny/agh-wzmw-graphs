@@ -18,7 +18,7 @@ class GraphBase:
             (Node) the created node
     """
     def add_node(self):
-        n = node.Node(self, id_=self.__last_inserted_node_id+1)
+        n = node.Node(id_=self.__last_inserted_node_id+1)
         self.__last_inserted_node_id += 1
         self.V.append(n)
         return n

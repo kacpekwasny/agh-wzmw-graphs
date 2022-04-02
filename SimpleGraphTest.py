@@ -32,7 +32,7 @@ class TestSimpleFullGraph(unittest.TestCase):
         self.assertEqual(len(self.full_graph.E), 0, "should have removed all edges")
         
         for n in self.full_graph.V:
-            self.assertEqual(len(n.neighbours), 0, "Node shouldnt have any neighbours left")
+            self.assertEqual(n.num_neighbours, 0, "Node shouldnt have any neighbours left")
 
 
 if __name__ == "__main__":

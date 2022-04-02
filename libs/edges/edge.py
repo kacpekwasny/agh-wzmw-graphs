@@ -8,14 +8,14 @@ if TYPE_CHECKING:
 
 class Edge:
     def __init__(self, *nodes: Node) -> None:
-        self.nodes = list(nodes)
+        self.nodes: list[Node] = []
+        for n in nodes:
+            self.connect_node(n)
         
     def connect_node(self, n_new: Node):
         for n in self.nodes:
-            if n_new in n.neighbours:
-                n.neighbours[n] += 1
-                continue
-            n.neighbours[n_new] = 1
+            n.add_neighbour(n_new)
+            n_new.add_neighbour(n)
         self.nodes.append(n_new)
         n_new.edges.append(self)
 
@@ -28,7 +28,12 @@ class Edge:
         self.nodes.remove(n_old)
         n_old.edges.remove(self)
         for n in self.nodes:
-            n.neighbours[n_old] -= 1
-            n_old[n] -= 1
-        
+            n.remove_neighbour(n_old)
+            n_old.remove_neighbour(n)
 
+    def destroy(self):
+        """
+        disconnect all nodes
+        """
+        for n in self.nodes:
+            self.disconnect_node(n)
