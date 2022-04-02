@@ -1,9 +1,9 @@
 import unittest
-from libs.edges.directed_edge import DirectedEdge
-from libs.errors.errors import EdgeAllreadyExistsinGraphError, GraphError
+from graphlib.edges.directed_edge import DirectedEdge
+from graphlib.errors.errors import EdgeAllreadyExistsinGraphError, GraphError
 import inspect
 
-from libs.graphs.directed_graph import DirectedGraph
+from graphlib.graphs.directed_graph import DirectedGraph
 
 class TestDirectGraph(unittest.TestCase):
 

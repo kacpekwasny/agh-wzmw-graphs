@@ -1,9 +1,9 @@
 import unittest
-from libs.edges.simple_edge import SimpleEdge
-from libs.errors.errors import EdgeAllreadyExistsinGraphError, GraphError
+from graphlib.edges.simple_edge import SimpleEdge
+from graphlib.errors.errors import EdgeAllreadyExistsinGraphError, GraphError
 import inspect
 
-from libs.graphs.simple_graph import SimpleGraph
+from graphlib.graphs.simple_graph import SimpleGraph
 
 # import logging
 # formatter = logging.Formatter('[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s','%m-%d %H:%M:%S')
