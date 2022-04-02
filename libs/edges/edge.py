@@ -17,6 +17,7 @@ class Edge:
                 continue
             n.neighbours[n_new] = 1
         self.nodes.append(n_new)
+        n_new.edges.append(self)
 
     def disconnect_node(self, n_old: Node):
         """
@@ -25,6 +26,7 @@ class Edge:
         if n_old not in self.nodes:
             raise NodeNotMemberOfEdgeError
         self.nodes.remove(n_old)
+        n_old.edges.remove(self)
         for n in self.nodes:
             n.neighbours[n_old] -= 1
             n_old[n] -= 1
