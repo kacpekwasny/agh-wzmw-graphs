@@ -9,12 +9,17 @@ class SimpleGraph(GraphBase):
         super().__init__()
 
     def add_node(self):
+        """Create a node append it to self and return the instance."""
         return super()._add_node()
 
     def remove_node(self, n):
+        """
+        Remove node from Graph.V, destroy all of its edges, and remove from other nodes's neighbours.
+        """
         super()._remove_node(n)
 
     def connect_nodes(self, n1: node.Node, n2: node.Node):
+        """Create an edge between two nodes unles it allready exists."""
         new_e = se.SimpleEdge(n1, n2)
         for e in self.E:
             if new_e.equal_to(e):
@@ -22,6 +27,7 @@ class SimpleGraph(GraphBase):
         super()._add_edge(new_e)
     
     def remove_edge(self, e: se.SimpleEdge):
+        """Disconnect two neighbours"""
         super()._remove_edge(e)
 
     def disconnect_nodes(self, n1: node.Node, n2: node.Node):
