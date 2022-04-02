@@ -79,3 +79,33 @@ if False:
 
 
 ```
+Console output:
+```py
+0<=>1
+1<=>2
+2<=>3
+3<=>4
+4<=>5
+5<=>6
+6<=>7
+7<=>8
+8<=>9
+0<=>9
+n1.id=0, n2.id=1
+
+This displays how many connections to a certain node does this node have:
+    n2.neighbours[n1] = 1
+    n1.neighbours[n2] = 1
+This displays what edges is this node part of.
+    [str(e) for e in n1.edges] = ['0<=>1', '0<=>9']
+    [str(e) for e in n2.edges] = ['0<=>1', '1<=>2']
+
+G1.remove_edge(e)
+
+This displays how many connections to a certain node does this node have:
+    n2.neighbours[n1] = 0
+    n1.neighbours[n2] = 0
+This displays what edges is this node part of.
+    [str(e) for e in n1.edges] = ['0<=>9']
+    [str(e) for e in n2.edges] = ['1<=>2']
+```
