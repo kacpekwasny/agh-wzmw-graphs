@@ -9,7 +9,7 @@ class GraphBase:
     def __init__(self) -> None:
         self.V: list[node.Node] = [] # vertecies / nodes
         self.E: list[edge.Edge] = [] # edges
-        self.__last_inserted_node_id = 0 # increment +1 on every new Node
+        self.__last_inserted_node_id = -1 # increment +1 on every new Node
 
 
     def _add_node(self):
@@ -18,7 +18,7 @@ class GraphBase:
             returns:
                 (Node) the created node
         """
-        n = node.Node(id_=self.__last_inserted_node_id+1)
+        n = node.Node(id_=self.__last_inserted_node_id + 1)
         self.__last_inserted_node_id += 1
         self.V.append(n)
         return n
