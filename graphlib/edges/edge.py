@@ -11,6 +11,9 @@ class Edge:
         self.nodes: list[Node] = []
         for n in nodes:
             self._connect_node(n)
+
+    def __str__(self) -> str:
+        return "".join([f"{n.id}, " for n in self.nodes]) +  "\b\b"
         
     def _connect_node(self, n_new: Node):
         for n in self.nodes:

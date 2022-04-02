@@ -11,6 +11,10 @@ class SimpleEdge(Edge):
         self.n2 = n2
         super().__init__(n1, n2)
     
+    def __str__(self) -> str:
+        return f"{self.n1.id}<=>{self.n2.id}"
+
+
     """
     Compare two edges:
 

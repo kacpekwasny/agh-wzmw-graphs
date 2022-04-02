@@ -12,6 +12,10 @@ class DirectedEdge(Edge):
         self.to = to
         super().__init__(from_, to)
     
+    def __str__(self) -> str:
+        return f"{self.from_.id}=>{self.to.id}"
+
+
     def equal_to(self, other: DirectedEdge):
         return self.from_ == other.from_ and self.to == other.to
 
