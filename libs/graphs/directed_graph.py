@@ -9,10 +9,10 @@ class DirectedGraph(GraphBase):
         self.multigraph = multigraph
         super().__init__()
 
-    """
-    connect two nodes of this graph with a directed edge
-    """
     def connect_nodes(self, from_, to):
+        """
+        connect two nodes of this graph with a directed edge
+        """
         new_e = DirectedEdge(from_, to)
         if not self.multigraph: # check if an edge like this allready exists
             for e in self.E:
@@ -29,18 +29,18 @@ class DirectedGraph(GraphBase):
         
         raise EdgeNotMemberOfGraphError
     
-    """
-    get directed edges in direction from_ -> to
-    between specified nodes
-
-    params:
-        from_:  Node
-        to:     Node
-    
-    returns:
-        list[DirectedEdge] - empty if none where found
-    """
     def get_directed_edges(self, from_: Node, to: Node) -> list[DirectedEdge]:
+        """
+        get directed edges in direction from_ -> to
+        between specified nodes
+
+        params:
+            from_:  Node
+            to:     Node
+        
+        returns:
+            list[DirectedEdge] - empty if none where found
+        """
         if not to in from_.neighbours:
             return []
         return []

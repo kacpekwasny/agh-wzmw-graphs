@@ -23,5 +23,3 @@ class SimpleEdge(Edge):
          or sn[0] == on[1] and sn[1] == on[0]):
             return True
         return False
-
-    

@@ -10,16 +10,16 @@ class Edge:
     def __init__(self, *nodes: Node) -> None:
         self.nodes: list[Node] = []
         for n in nodes:
-            self.connect_node(n)
+            self._connect_node(n)
         
-    def connect_node(self, n_new: Node):
+    def _connect_node(self, n_new: Node):
         for n in self.nodes:
             n.add_neighbour(n_new)
             n_new.add_neighbour(n)
         self.nodes.append(n_new)
         n_new.edges.append(self)
 
-    def disconnect_node(self, n_old: Node):
+    def _disconnect_node(self, n_old: Node):
         """
         remove first occurance of node in edge    
         """
@@ -31,9 +31,9 @@ class Edge:
             n.remove_neighbour(n_old)
             n_old.remove_neighbour(n)
 
-    def destroy(self):
+    def _disconnect_all_nodes(self):
         """
         disconnect all nodes
         """
         for n in self.nodes:
-            self.disconnect_node(n)
+            self._disconnect_node(n)

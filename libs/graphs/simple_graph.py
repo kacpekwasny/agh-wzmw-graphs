@@ -9,31 +9,20 @@ class SimpleGraph(GraphBase):
         super().__init__()
 
     def add_node(self):
-        return super().add_node()
+        return super()._add_node()
+
+    def remove_node(self, n):
+        pass
 
     def connect_nodes(self, n1: node.Node, n2: node.Node):
         new_e = se.SimpleEdge(n1, n2)
         for e in self.E:
             if new_e.equal_to(e):
                 raise NodesAllreadyConnectedGraphError
-        super().add_edge(new_e)
+        super()._add_edge(new_e)
     
     def remove_edge(self, e: se.SimpleEdge):
-        """
-        remove edge, and disconnect nodes
-            params:
-                e: SimpleEdege - edge to be removed from graph
-
-            raises:
-                GraphError:
-                    - Edge not a member of this graph
-        """
-        if e in self.E:    
-            e.destroy()
-            self.E.remove(e)
-            return
-        
-        raise EdgeNotMemberOfGraphError
+        super()._remove_edge(e)
 
     def disconnect_nodes(self, n1: node.Node, n2: node.Node):
         """
@@ -46,9 +35,9 @@ class SimpleGraph(GraphBase):
                     - At least one node is not a memeber of graph
                     - Nodes are not connected
         """
-        self.nodes_are_members(n1, n2)
+        self._nodes_are_members(n1, n2)
         e: se.SimpleEdge
-        for e in self.E:
+        for e in n1.edges:
             if (e.n1 == n1 and e.n2 == n2
              or e.n1 == n2 or e.n2 == n1):
                 self.remove_edge(e)

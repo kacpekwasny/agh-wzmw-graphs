@@ -1,4 +1,6 @@
 import unittest
+from libs.edges.simple_edge import SimpleEdge
+from libs.errors.errors import EdgeAllreadyExistsinGraphError, GraphError
 
 from libs.graphs.simple_graph import SimpleGraph
 
@@ -34,6 +36,15 @@ class TestSimpleFullGraph(unittest.TestCase):
         for n in self.full_graph.V:
             self.assertEqual(n.num_neighbours, 0, "Node shouldnt have any neighbours left")
 
+    def test_cannot_create_two_equal_edges(self):
+        n1 = self.full_graph.add_node()
+        n2 = self.full_graph.add_node()
+        self.full_graph.connect_nodes(n1, n2)
+        try:
+            self.full_graph.connect_nodes(n2, n1)
+        except GraphError:
+            return
+        self.assertEqual(1, 2, "It should not be possible to create two edges between two same nodes in a SimpleGraph.")
 
 if __name__ == "__main__":
     unittest.main()

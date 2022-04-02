@@ -15,6 +15,11 @@ class DirectedEdge(Edge):
     def equal_to(self, other: DirectedEdge):
         return self.from_ == other.from_ and self.to == other.to
 
+    def flow_possible(self, from_, to) -> bool:
+        """
+        Tell if this edge is directed in direction from_ -> to
+        """
+        return from_ == self.from_ and to == self.to
 
 
 
