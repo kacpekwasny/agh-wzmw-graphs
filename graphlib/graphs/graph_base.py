@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from ..edges import edge
 from ..nodes import node
 from ..errors.errors import EdgeNotMemberOfGraphError, NodeNotFoundNodeError, NodeNotFoundNodeError
@@ -61,3 +63,7 @@ class GraphBase:
             return
         
         raise EdgeNotMemberOfGraphError
+
+
+    def copy(self):
+        return deepcopy(self)
