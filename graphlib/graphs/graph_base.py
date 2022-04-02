@@ -64,7 +64,7 @@ class GraphBase:
         
         raise EdgeNotMemberOfGraphError
 
-    def get_node(self, id_) -> node.Node:
+    def get_nodes(self, *id_list: int) -> list[node.Node]:
         """
         Get node by id:
             params:
@@ -76,7 +76,7 @@ class GraphBase:
             raises:
                 IndexError when a node with specified id was not found
         """
-        return [n for n in self.V if n.id == id_][0]
+        return [n for n in self.V if n.id in id_list]
 
     def copy(self):
         return deepcopy(self)
