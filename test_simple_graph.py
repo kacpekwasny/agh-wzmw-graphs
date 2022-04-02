@@ -1,8 +1,16 @@
 import unittest
 from libs.edges.simple_edge import SimpleEdge
 from libs.errors.errors import EdgeAllreadyExistsinGraphError, GraphError
+import inspect
 
 from libs.graphs.simple_graph import SimpleGraph
+
+# import logging
+# formatter = logging.Formatter('[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s','%m-%d %H:%M:%S')
+# c_handler = logging.StreamHandler()
+# lgr = logging.getLogger("custom logger")
+# lgr.addHandler(c_handler)
+# lgr.setLevel(10)
 
 class TestSimpleFullGraph(unittest.TestCase):
 
@@ -35,6 +43,12 @@ class TestSimpleFullGraph(unittest.TestCase):
         
         for n in self.full_graph.V:
             self.assertEqual(n.num_neighbours, 0, "Node shouldnt have any neighbours left")
+            self.assertEqual(len(n.edges), 0, "no edges shoud be left, as all were supposed to be disconnected from the node")
+
+        # check if in Node.neighbours: { Node->int } values are all 0``
+        for n in self.full_graph.V:
+            neigh_sum = sum(n.neighbours.values())
+            self.assertEqual(0, neigh_sum, "The full_graph shuld have been completely disconnected, and all neighbour values should've been 0.")
 
     def test_cannot_create_two_equal_edges(self):
         n1 = self.full_graph.add_node()
@@ -45,6 +59,9 @@ class TestSimpleFullGraph(unittest.TestCase):
         except GraphError:
             return
         self.assertEqual(1, 2, "It should not be possible to create two edges between two same nodes in a SimpleGraph.")
+
+
+
 
 if __name__ == "__main__":
     unittest.main()

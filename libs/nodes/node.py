@@ -17,12 +17,14 @@ class Node:
         self.id = id_            
 
     def add_neighbour(self, n: Node):
+        """Increment neighbour dict count"""
         if n in self.neighbours:
             self.neighbours[n] += 1
             return
         self.neighbours[n] = 1
 
     def remove_neighbour(self, n: Node):
+        """Decrement neighbour dict count"""
         self.neighbours[n] -= 1  
 
     def join_node_to_edge(self, e: Edge):

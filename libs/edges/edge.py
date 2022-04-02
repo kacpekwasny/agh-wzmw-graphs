@@ -35,5 +35,5 @@ class Edge:
         """
         disconnect all nodes
         """
-        for n in self.nodes:
+        for n in self.nodes[:]:
             self._disconnect_node(n)

@@ -9,6 +9,12 @@ class DirectedGraph(GraphBase):
         self.multigraph = multigraph
         super().__init__()
 
+    def add_node(self):
+        return super()._add_node()
+
+    def remove_node(self, n):
+        super()._remove_node(n)
+
     def connect_nodes(self, from_, to):
         """
         connect two nodes of this graph with a directed edge
@@ -18,16 +24,13 @@ class DirectedGraph(GraphBase):
             for e in self.E:
                 if new_e.equal_to(e):
                     raise EdgeAllreadyExistsinGraphError
-        self.add_edge(new_e)
+        self._add_edge(new_e)
     
     def remove_edge(self, e: DirectedEdge):
-        if e in self.E:    
-            e.from_.neighbours.remove(e.to)
-            e.to.neighbours.remove(e.from_)
-            self.E.remove(e)
-            return
-        
-        raise EdgeNotMemberOfGraphError
+        if e not in self.E:    
+            raise EdgeNotMemberOfGraphError
+        e._disconnect_all_nodes()
+        self.E.remove(e)
     
     def get_directed_edges(self, from_: Node, to: Node) -> list[DirectedEdge]:
         """
@@ -41,8 +44,11 @@ class DirectedGraph(GraphBase):
         returns:
             list[DirectedEdge] - empty if none where found
         """
-        if not to in from_.neighbours:
+        if to not in from_.neighbours:
             return []
-        return []
+        e: DirectedEdge
+        return [e for e in from_.edges if e.flow_possible(from_, to)]
+
+
         
 

@@ -12,7 +12,7 @@ class SimpleGraph(GraphBase):
         return super()._add_node()
 
     def remove_node(self, n):
-        pass
+        super()._remove_node(n)
 
     def connect_nodes(self, n1: node.Node, n2: node.Node):
         new_e = se.SimpleEdge(n1, n2)
