@@ -69,6 +69,19 @@ class TestDirectGraph(unittest.TestCase):
         if not self.multigraph:
             self.assertEqual(1, 2, "It should NOT BE possible to create two edges between two same nodes with same direction.")
 
+    def test_cannot_create_loop(self):
+        n1 = self.digraph.add_node()
+        try:
+            self.digraph.connect_nodes(n1, n1)
+        except GraphError:
+            if self.multigraph:
+                self.assertEqual(1, 2, "It should BE possible to create an edge loop (connect n1 to n1).")
+            return
+        if not self.multigraph:
+            self.assertEqual(1, 2, "It should NOT be possible to create an edge loop (connect n1 to n1).")
+    
+
+            return
 
 
 if __name__ == "__main__":

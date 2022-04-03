@@ -60,6 +60,13 @@ class TestSimpleFullGraph(unittest.TestCase):
             return
         self.assertEqual(1, 2, "It should not be possible to create two edges between two same nodes in a SimpleGraph.")
 
+    def test_cannot_create_loop(self):
+        n1 = self.full_graph.add_node()
+        try:
+            self.full_graph.connect_nodes(n1, n1)
+        except GraphError:
+            return
+        self.assertEqual(1, 2, "It should NOT be possible to create an edge loop (connect n1 to n1).")
 
 
 
