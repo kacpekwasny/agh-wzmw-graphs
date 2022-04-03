@@ -54,3 +54,11 @@ class SimpleGraph(GraphBase):
                 self.remove_edge(e)
                 return
         raise NodesNotConnectedGraphError
+
+    def create_path(self, *nodes: node.Node) -> None: 
+        for i, n in enumerate(nodes[:-1]):
+            self.connect_nodes(n, nodes[i+1])
+
+    def create_path_ids(self, *ids: int) -> None:
+        for i, id_ in enumerate(ids[:-1]):
+            self.connect_nodes(self.get_nodes(id_)[0], self.get_nodes(ids[i+1])[0])
