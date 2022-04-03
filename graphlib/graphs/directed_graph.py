@@ -12,6 +12,9 @@ class DirectedGraph(GraphBase):
     def add_node(self):
         return super()._add_node()
 
+    def add_nodes(self, num):
+        return super()._add_nodes(num)
+
     def remove_node(self, n):
         super()._remove_node(n)
 

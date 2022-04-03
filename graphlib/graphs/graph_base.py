@@ -22,6 +22,9 @@ class GraphBase:
         self.__last_inserted_node_id += 1
         self.V.append(n)
         return n
+    
+    def _add_nodes(self, num):
+        return [self._add_node() for _ in range(num)]
 
     def _remove_node(self, n: node.Node):
         """
