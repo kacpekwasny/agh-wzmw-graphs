@@ -1,8 +1,8 @@
 import unittest
-from graphlib.edges.simple_edge import SimpleEdge
-from graphlib.errors.errors import EdgeAllreadyExistsinGraphError, GraphError
-import inspect
+import sys, os
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
+from graphlib.errors.errors import GraphError
 from graphlib.graphs.simple_graph import SimpleGraph
 
 # import logging

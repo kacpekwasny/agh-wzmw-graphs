@@ -1,8 +1,8 @@
 import unittest
-from graphlib.edges.directed_edge import DirectedEdge
-from graphlib.errors.errors import EdgeAllreadyExistsinGraphError, GraphError
-import inspect
+import sys, os
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
+from graphlib.errors.errors import GraphError
 from graphlib.graphs.directed_graph import DirectedGraph
 
 class TestDirectGraph(unittest.TestCase):
