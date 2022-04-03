@@ -10,6 +10,7 @@ EdgeAllreadyExistsinGraphError = GraphError("Edge allready exists in graph.")
 NodesAllreadyConnectedGraphError = GraphError("Those two nodes are allready connected")
 EdgeNotMemberOfGraphError = GraphError("Edge not a member of this graph")
 NodesNotConnectedGraphError = GraphError("Nodes are not connected")
+CannotCreateLoopGraphError = GraphError("It is not allowed to create an edge from N1 to N1.")
 
 class EdgeError(Exception):pass
 NodeNotMemberOfEdgeError = EdgeError("Node is not a member of edge")

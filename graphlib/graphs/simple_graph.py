@@ -1,4 +1,4 @@
-from ..errors.errors import EdgeNotMemberOfGraphError, NodesAllreadyConnectedGraphError, NodesNotConnectedGraphError
+from ..errors.errors import CannotCreateLoopGraphError, NodesAllreadyConnectedGraphError, NodesNotConnectedGraphError
 from ..nodes import node
 from ..edges import simple_edge as se
 from .graph_base import GraphBase
@@ -20,6 +20,8 @@ class SimpleGraph(GraphBase):
 
     def connect_nodes(self, n1: node.Node, n2: node.Node):
         """Create an edge between two nodes unles it allready exists."""
+        if n1 is n2:
+            raise CannotCreateLoopGraphError
         new_e = se.SimpleEdge(n1, n2)
         for e in self.E:
             if new_e.equal_to(e):

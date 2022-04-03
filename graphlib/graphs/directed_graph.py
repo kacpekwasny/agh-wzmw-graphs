@@ -1,6 +1,6 @@
 
 from ..nodes.node import Node
-from ..errors.errors import EdgeAllreadyExistsinGraphError, EdgeNotMemberOfGraphError, NodesNotConnectedGraphError
+from ..errors.errors import CannotCreateLoopGraphError, EdgeAllreadyExistsinGraphError, EdgeNotMemberOfGraphError
 from ..edges.directed_edge import DirectedEdge
 from .graph_base import GraphBase
 
@@ -19,6 +19,8 @@ class DirectedGraph(GraphBase):
         """
         connect two nodes of this graph with a directed edge
         """
+        if from_ is to:
+            raise CannotCreateLoopGraphError
         new_e = DirectedEdge(from_, to)
         if not self.multigraph: # check if an edge like this allready exists
             for e in self.E:
