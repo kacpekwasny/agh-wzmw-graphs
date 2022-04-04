@@ -7,11 +7,13 @@ from graphlib.nodes.node import Node
 from graphlib.edges.simple_edge import SimpleEdge
 from graphlib.graphs.multigraph import Multigraph
 from graphlib.algos import IsConnected
+from graphlib.algos import IsEuler
 
 class TestMultiGraph(unittest.TestCase):
 
     def setUp(self) -> None:
         self.is_connected = IsConnected()
+        self.is_euler = IsEuler()
         return super().setUp()
 
     def create_cycle(self) -> None:
@@ -72,14 +74,13 @@ class TestMultiGraph(unittest.TestCase):
         self.create_unconnected_graph_big()
         self.assertFalse(self.is_connected.solve(self.graph).return_value(), "Two long chains but split in the middle should be determined as unconnected.")
 
-    @unittest.skip
     def test_is_an_euler_graph(self):
         for f in [self.create_cycle, self.create_double_cycle]:
             f()
-            self.assertEqual(is_euler(self.graph), True, f"{f.__name__=} So the graph should be determined as an euler graph.")
+            self.assertTrue(self.is_euler.solve(self.graph).return_value(), f"{f.__name__=} So the graph should be determined as an euler graph.")
         
         self.create_path()
-        self.assertEqual(is_euler(self.graph), False, "A path is not an euler graph.")            
+        self.assertFalse(self.is_euler.solve(self.graph).return_value(), "A path is not an euler graph.")            
 
     @unittest.skip
     def test_find_euler_path(self):

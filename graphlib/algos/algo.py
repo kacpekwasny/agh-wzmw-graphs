@@ -6,10 +6,10 @@ from typing import Any
 
 class Algo:
     def __init__(self) -> None:
+        self.visualization_state = {}
+        """Keep here data that is important for visualization."""
         self.done = False
-        self.end_state = None 
-        """When using Algo.next(), here the return value of allgorithm will be kept."""
-
+        
     def prepare(self):
         """
         Prepare eveything
@@ -24,14 +24,15 @@ class Algo:
         """
         raise NotImplementedError
 
+
     def return_value(self) -> Any:
         raise NotImplementedError
 
-    def solve(self) -> Algo:
+    def solve(self, *args, **kwargs) -> Algo:
         """
         Run the algorithm from begging to end. Without stops for visualization.
         """
-        self.prepare()
+        self.prepare(*args, **kwargs)
         while self.next(): pass
         return self
 
@@ -40,6 +41,7 @@ class Algo:
         Return dict of variables, that visualize the current state of the algorithm.
         One could simply access values by Object.field, but if we return all values that we consider meaningfull,
         it might be easier for somone to understand the algorithm and implement their own visualization. 
+        self.visualization_state = {}
         """
         raise NotImplementedError
 

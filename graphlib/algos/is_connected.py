@@ -45,12 +45,11 @@ class IsConnected(Algo):
     def return_value(self) -> bool:
         return all([n in self.connected_nodes for n in self.graph.V])
 
-
-    def solve(self, graph: GraphBase) -> IsConnected:
-        self.prepare(graph)
-        while self.next(): pass
-        return self
-
+#    def solve(self, graph: GraphBase) -> IsConnected:
+#        self.prepare(graph)
+#        while self.next(): pass
+#        return self
+#
 
 
 
