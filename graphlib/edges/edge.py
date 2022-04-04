@@ -9,6 +9,7 @@ if TYPE_CHECKING:
 class Edge:
     def __init__(self, *nodes: Node) -> None:
         self.nodes: list[Node] = []
+        self.id = None
         for n in nodes:
             self._connect_node(n)
 

@@ -6,8 +6,10 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from graphlib.nodes.node import Node
 from graphlib.edges.simple_edge import SimpleEdge
 from graphlib.graphs.multigraph import Multigraph
+from graphlib.algos import FindEulerPath
 from graphlib.algos import IsConnected
 from graphlib.algos import IsEuler
+
 
 class TestMultiGraph(unittest.TestCase):
 
@@ -82,10 +84,12 @@ class TestMultiGraph(unittest.TestCase):
         self.create_path()
         self.assertFalse(self.is_euler.solve(self.graph).return_value(), "A path is not an euler graph.")            
 
-    @unittest.skip
     def test_find_euler_path(self):
         self.create_cycle()
-        found_path = find_euler_path(self.graph)
+        euler_path_finder = FindEulerPath()
+        found_path = euler_path_finder.solve(self.graph).return_value()
+        [print(p) for p in found_path]
+        self.assertEqual(found_path[0], found_path[-1], "Last and first node should be the same.")
         edges = self.graph.E[:]
         prev_nodes = self.graph.V[:]
         for el in found_path:
