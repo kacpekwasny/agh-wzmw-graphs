@@ -1,5 +1,7 @@
 import enum
 
+from graphlib.edges.simple_edge import SimpleEdge
+
 from ..nodes.node import Node
 from ..edges.edge import Edge
 from ..graphs.graph_base import GraphBase
@@ -17,7 +19,7 @@ class FindEulerPath(Algo):
         self.edges_used: list[Edge] = []
         self.path: list[Edge, Node] = []
         self.current_node = self.graph.V[0]
-        pass
+        self.success = None
 
     def next(self) -> bool:
         """
@@ -27,14 +29,14 @@ class FindEulerPath(Algo):
             bool:  <the algorithm is NOT completed> True for not completed, False for completed.
         """
         if len(self.graph.E) == 0:
-            self.path.append(self.current_node)
-            self.done = True
+            self.path.append(self.original_graph.get_nodes(self.current_node.id)[0])
+            self.success = True
             return False
 
         # There are edges left, but the current node does not have any left <=> it is isolated, and we have no way to get back to the rest of the graph.
         # The graph is NOT an euler graph
         if len(self.current_node.edges) == 0:
-            self.done = False
+            self.success = False
             return False
 
         edge_to_remove: Edge = None
@@ -52,9 +54,9 @@ class FindEulerPath(Algo):
         if edge_to_remove is None:
             edge_to_remove = self.current_node.edges[0]
         self.old_node = self.current_node 
+        self.path.append(self.original_graph.get_nodes(self.current_node.id)[0])
+        self.path.append(self.original_graph.get_edges(edge_to_remove.id)[0])
         self.current_node = [n for n in edge_to_remove.nodes if n is not self.current_node][0]
-        self.path.append(self.current_node)
-        self.path.append(edge_to_remove)
         self.graph._remove_edge(edge_to_remove)
         self.edges_used.append(edge_to_remove)
         if len(self.old_node.edges) == 0:
@@ -64,3 +66,15 @@ class FindEulerPath(Algo):
 
     def return_value(self) -> bool:
         return self.path
+
+    def __str__(self) -> str:
+        ret = ""
+        for el in self.path:
+            #if type(el) is SimpleEdge:
+            #    ret += str(el)
+            if type(el) is Node:
+                ret += str(el.id)
+            ret += " "
+
+        return ret + "\b\b"
+        

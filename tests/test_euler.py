@@ -37,6 +37,8 @@ class TestMultiGraph(unittest.TestCase):
         
         for i, n in enumerate(nodes[:-1]):
             G.connect_nodes(n, G.V[i+1])
+            G.connect_nodes(n, G.V[i+1])
+        G.connect_nodes(G.V[0], G.V[-1])
         G.connect_nodes(G.V[0], G.V[-1])
 
         self.nodes_num = nodes_num
@@ -49,6 +51,9 @@ class TestMultiGraph(unittest.TestCase):
         
         for i, n in enumerate(nodes[:-1]):
             G.connect_nodes(n, G.V[i+1])
+
+        # first and last are not connected.
+        
         self.nodes_num = nodes_num
         self.graph = G
 
@@ -88,10 +93,20 @@ class TestMultiGraph(unittest.TestCase):
         self.create_cycle()
         euler_path_finder = FindEulerPath()
         found_path = euler_path_finder.solve(self.graph).return_value()
-        [print(p) for p in found_path]
+        print(str(euler_path_finder))
+        self.found_euler_path_is_euler_path(found_path, self.graph)
+
+
+        self.create_double_cycle()
+        found_path = euler_path_finder.solve(self.graph).return_value()
+        print(str(euler_path_finder))
+        self.found_euler_path_is_euler_path(found_path, self.graph)
+
+
+    def found_euler_path_is_euler_path(self, found_path: list[Node, SimpleEdge], graph: Multigraph):
         self.assertEqual(found_path[0], found_path[-1], "Last and first node should be the same.")
-        edges = self.graph.E[:]
-        prev_nodes = self.graph.V[:]
+        edges = graph.E[:]
+        prev_nodes = graph.V[:]
         for el in found_path:
             if type(el) is SimpleEdge:
                 # check if previous edge and this one have a common neighbour
@@ -100,7 +115,7 @@ class TestMultiGraph(unittest.TestCase):
                     if n in prev_nodes:
                         found = True
                         break
-                self.assertTrue(found, "This and previous edge have no common nodes.")
+                self.assertTrue(found, f"This and previous edge have no common nodes. {str(el)=}")
                 prev_nodes = el.nodes[:]
                 edges.remove(el)
 
