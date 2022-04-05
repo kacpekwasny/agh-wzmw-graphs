@@ -1,4 +1,5 @@
 from __future__ import annotations
+from copy import copy
 
 from ..edges.edge import Edge
 from ..errors.errors import NodeMissingIdNodeError
@@ -12,30 +13,31 @@ class Node:
         """
         if id_ is None:
             raise NodeMissingIdNodeError
-        self.neighbours: dict[Node, int] = {} # Node -> times it is connected to self.
+        self._neighbours: dict[Node, int] = {} # Node -> times it is connected to self.
         self.edges: list[Edge] = []
         self.id = id_            
 
-    def add_neighbour(self, n: Node):
+    def _add_neighbour(self, n: Node):
         """Increment neighbour dict count"""
-        if n in self.neighbours:
-            self.neighbours[n] += 1
+        if n in self._neighbours:
+            self._neighbours[n] += 1
             return
-        self.neighbours[n] = 1
+        self._neighbours[n] = 1
 
-    def remove_neighbour(self, n: Node):
+    def _remove_neighbour(self, n: Node):
         """Decrement neighbour dict count"""
-        self.neighbours[n] -= 1  
+        self._neighbours[n] -= 1  
 
-    def join_node_to_edge(self, e: Edge):
-        e.connect_node(self)
+    @property
+    def neighbours(self) -> dict[Node, int]:
+        return copy(self.neighbours)
 
-    def disconnect_node_from_edge(self, e: Edge):
-        e.disconnect_node(self)
+    def _join_node_to_edge(self, e: Edge):
+        e._connect_node(self)
 
     @property
     def num_neighbours(self) -> int:
-        return len([None for v in self.neighbours.values() if v != 0])
+        return len([None for v in self._neighbours.values() if v != 0])
 
 
         

@@ -14,6 +14,13 @@ class SimpleEdge(Edge):
     def __str__(self) -> str:
         return f"{self.n1.id}<=>{self.n2.id}"
 
+    def _disconnect_node(self, n_old: Node):
+        """
+        In simple edge, when you disconnect one node from edge, it means, that there is only one node left,
+        so I automatically disconnect there other edge as well.
+        """
+        super()._disconnect_node(n_old)
+
 
     """
     Compare two edges:

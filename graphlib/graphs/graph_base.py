@@ -24,7 +24,7 @@ class GraphBase:
         self.V.append(n)
         return n
     
-    def _add_nodes(self, num):
+    def _add_nodes(self, num: int):
         return [self._add_node() for _ in range(num)]
 
     def _remove_node(self, n: node.Node):
@@ -72,7 +72,7 @@ class GraphBase:
 
     def get_nodes(self, *id_list: int) -> list[node.Node]:
         """
-        Get node by id:
+        Gets nodes from self.V in order specified by the id's in id_list:
             params:
                 id_: int - id of node
             
@@ -82,11 +82,21 @@ class GraphBase:
             raises:
                 IndexError when a node with specified id was not found
         """
-        return [n for n in self.V if n.id in id_list]
+        ret = []
+        for id_ in id_list:
+            found = False
+            for n in self.V:
+                if n.id == id_:
+                    ret.append(n)
+                    found = True
+                    break
+            if not found:
+                raise IndexError
+        return ret
 
     def get_edges(self, *id_list: int) -> list[edge.Edge]:
         """
-        Get edge by id:
+        Gets edges from self.E in order specified by the id's in id_list:
             params:
                 id_: int - id of edge
             
@@ -96,7 +106,17 @@ class GraphBase:
             raises:
                 IndexError when a node with specified id was not found
         """
-        return [e for e in self.E if e.id in id_list]
+        ret = []
+        for id_ in id_list:
+            found = False
+            for e in self.E:
+                if e.id == id_:
+                    ret.append(e)
+                    found = True
+                    break
+            if not found:
+                raise IndexError
+        return ret
 
     def deepcopy(self):
         return deepcopy(self)

@@ -18,8 +18,8 @@ class Edge:
         
     def _connect_node(self, n_new: Node):
         for n in self.nodes:
-            n.add_neighbour(n_new)
-            n_new.add_neighbour(n)
+            n._add_neighbour(n_new)
+            n_new._add_neighbour(n)
         self.nodes.append(n_new)
         n_new.edges.append(self)
 
@@ -32,8 +32,8 @@ class Edge:
         self.nodes.remove(n_old)
         n_old.edges.remove(self)
         for n in self.nodes:
-            n.remove_neighbour(n_old)
-            n_old.remove_neighbour(n)
+            n._remove_neighbour(n_old)
+            n_old._remove_neighbour(n)
 
     def _disconnect_all_nodes(self):
         """

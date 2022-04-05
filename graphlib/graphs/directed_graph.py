@@ -49,7 +49,7 @@ class DirectedGraph(GraphBase):
         returns:
             list[DirectedEdge] - empty if none where found
         """
-        if to not in from_.neighbours:
+        if to not in from_._neighbours:
             return []
         e: DirectedEdge
         return [e for e in from_.edges if e.flow_possible(from_, to)]

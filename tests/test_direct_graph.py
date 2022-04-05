@@ -29,7 +29,7 @@ class TestDirectGraph(unittest.TestCase):
 
     def test_number_of_neighbours(self):
         for n in self.digraph.V:
-            self.assertEqual(len(n.neighbours), self.nodes_num - 1,
+            self.assertEqual(len(n._neighbours), self.nodes_num - 1,
             f"fail if a node has different number of neighbours than {self.nodes_num-1=}")
 
     def test_disconnect_all_nodes(self):
@@ -42,9 +42,9 @@ class TestDirectGraph(unittest.TestCase):
             self.assertEqual(n.num_neighbours, 0, "Node shouldnt have any neighbours left")
             self.assertEqual(len(n.edges), 0, "no edges shoud be left, as all were supposed to be disconnected from the node")
 
-        # check if in Node.neighbours: { Node->int } values are all 0``
+        # check if in Node._neighbours: { Node->int } values are all 0``
         for n in self.digraph.V:
-            neigh_sum = sum(n.neighbours.values())
+            neigh_sum = sum(n._neighbours.values())
             self.assertEqual(0, neigh_sum, "The digraph shuld have been completely disconnected, and all neighbour values should've been 0.")
 
     def test_flow(self):

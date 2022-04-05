@@ -12,7 +12,7 @@ class SimpleGraph(GraphBase):
         """Create a node append it to self and return the instance."""
         return super()._add_node()
     
-    def add_nodes(self, num):
+    def add_nodes(self, num: int):
         return super()._add_nodes(num)
 
     def remove_node(self, n):
