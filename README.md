@@ -3,6 +3,41 @@
 Learn few algorithms from Graph Theory in a fun way, but I also want to make it flexible.
 
 
+### Hello world! Simple graph:
+
+```py
+from graphlib.graphs.simple_graph import SimpleGraph
+
+G = SimpleGraph()
+n0, n1, n2, n3 = G.add_nodes(4)
+
+G.create_path(n0, n1, n2, n3)
+G.connect_nodes(n1, n3)
+
+for edge in G.E:
+    print(str(edge))
+
+
+# and now you graph looks something like this:
+
+#   n3 ===== n2
+#      =      =
+#       =     =
+#        =    =
+#         =   =
+#          =  =
+#   n0 ===== n1
+```
+
+Console output:
+```
+0<=>1
+1<=>2
+2<=>3
+1<=>3
+```
+
+
 ## SimpleGraph, Multigraph, DirectedGraph, Node, DirectedEdge, SimpleEdge, Edge:
 ### Methods and fields.
 
@@ -175,43 +210,4 @@ directed_edge.to
 print(str(directed_edge))
 >>> 0 => 1
 
-```
-
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-Hello world! Simple graph:
-
-```py
-from graphlib.graphs.simple_graph import SimpleGraph
-
-G = SimpleGraph()
-n0, n1, n2, n3 = G.add_nodes(4)
-
-G.create_path(n0, n1, n2, n3)
-G.connect_nodes(n1, n3)
-
-for edge in G.E:
-    print(str(edge))
-
-
-# and now you graph looks something like this:
-
-#   n3 ===== n2
-#      =      =
-#       =     =
-#        =    =
-#         =   =
-#          =  =
-#   n0 ===== n1
-```
-
-Console output:
-```
-0<=>1
-1<=>2
-2<=>3
-1<=>3
 ```
