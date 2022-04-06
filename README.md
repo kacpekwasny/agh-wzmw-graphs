@@ -6,6 +6,15 @@ Learn few algorithms from Graph Theory in a fun way, but I also want to make it 
 ### Hello world! Simple graph:
 
 ```py
+# Lets create the following graph.
+#   n3 ===== n2
+#      =      =
+#       =     =
+#        =    =
+#         =   =
+#          =  =
+#   n0 ===== n1
+
 from graphlib.graphs.simple_graph import SimpleGraph
 
 G = SimpleGraph()
@@ -17,36 +26,22 @@ G.connect_nodes(n1, n3)
 for edge in G.E:
     print(str(edge))
 
-
-# and now you graph looks something like this:
-
-#   n3 ===== n2
-#      =      =
-#       =     =
-#        =    =
-#         =   =
-#          =  =
-#   n0 ===== n1
-```
-
-Console output:
-```
+# Console output:
 0<=>1
 1<=>2
 2<=>3
 1<=>3
 ```
 
-
 ## SimpleGraph, Multigraph, DirectedGraph, Node, DirectedEdge, SimpleEdge, Edge:
 ### Methods and fields.
 
 
-This is not an example of working code
-This is just a presentation of those methods, with explentaion of what they do, and their arguments
+This is not an example of working code.
+This is just a presentation of methods, with explentaion of what they do, and their arguments.
 
 #### SimpleGraph - <pl: graf prosty> 
-##### no multiple edges are allowed. Edge connects exactly two nodes - SimpleEdge.
+##### SimpleGraph - it is a graph that allows only one connection for a pair of nodes.
 ```py
 graph = SimpleGraph()
 
