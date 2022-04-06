@@ -1,6 +1,8 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+from graphlib.errors.errors import NodeNotMemberOfEdgeError
+
 from .edge import Edge
 
 if TYPE_CHECKING:
@@ -22,7 +24,13 @@ class DirectedEdge(Edge):
     def flow_possible(self, from_, to) -> bool:
         """
         Tell if this edge is directed in direction from_ -> to
+            raises:
+                EdgeError - when at least one node is not a member of this edge
+            returns:
+                bool - this edge allows flow from_ -> to
         """
+        if not (from_ in self.nodes and to in self.nodes):
+            return NodeNotMemberOfEdgeError
         return from_ == self.from_ and to == self.to
 
 
