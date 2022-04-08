@@ -115,7 +115,7 @@ n = graph.add_node()  # This is the proper way.
 n1 = graph.add_node() # graph has two nodes
 
 # Create and edge between n and n1
-n._add_neighbour(n1) # Take as an argument a node from the 'graph' variable
+n._increment_neighbour_count(n1) # Take as an argument a node from the 'graph' variable
 # the newly created edge is accesible by:
 e = graph.E[-1]
 
