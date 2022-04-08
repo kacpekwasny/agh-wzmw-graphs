@@ -16,7 +16,7 @@ class DirectedGraph(GraphBase):
         return super()._add_nodes(num)
 
     def remove_node(self, n):
-        super()._remove_node(n)
+        super()._remove_nodes(n)
 
     def connect_nodes(self, from_, to):
         """
