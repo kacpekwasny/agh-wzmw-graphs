@@ -61,7 +61,7 @@ class FindEulerPath(Algo):
         self.edges_used.append(edge_to_remove)
         if len(self.old_node.edges) == 0:
             # this node is isolated, remove it, so it wont interfere with checking whether the graph is_connected
-            self.graph._remove_node(self.old_node)
+            self.graph._remove_nodes(self.old_node)
         return True
 
     def return_value(self) -> bool:

@@ -7,9 +7,14 @@ if TYPE_CHECKING:
     from ..nodes.node import Node
 
 class Edge:
-    def __init__(self, *nodes: Node) -> None:
+    def __init__(self, graph, *nodes: Node) -> None:
+        self
         self.nodes: list[Node] = []
+        
         self.id = None
+        # when appending to a graph (USING AN APPROPRIATE METHOD - Graph.add_edges(edge)),
+        # the graph will automatically set the id.
+        
         for n in nodes:
             self._connect_node(n)
 
@@ -18,8 +23,8 @@ class Edge:
         
     def _connect_node(self, n_new: Node):
         for n in self.nodes:
-            n._add_neighbour(n_new)
-            n_new._add_neighbour(n)
+            n._increment_neighbour_count(n_new)
+            n_new._increment_neighbour_count(n)
         self.nodes.append(n_new)
         n_new.edges.append(self)
 
@@ -32,8 +37,8 @@ class Edge:
         self.nodes.remove(n_old)
         n_old.edges.remove(self)
         for n in self.nodes:
-            n._remove_neighbour(n_old)
-            n_old._remove_neighbour(n)
+            n._decrement_neighbour_count(n_old)
+            n_old._decrement_neighbour_count(n)
 
     def _disconnect_all_nodes(self):
         """

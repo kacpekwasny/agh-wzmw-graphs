@@ -5,7 +5,7 @@ from ..edges.edge import Edge
 from ..errors.errors import NodeMissingIdNodeError
 
 class Node:
-    def __init__(self, id_=None) -> None:
+    def __init__(self, graph, id_=None) -> None:
         """
             params:
                 parent_graph: GraphBase - graph that this node is a part of
@@ -13,20 +13,25 @@ class Node:
         """
         if id_ is None:
             raise NodeMissingIdNodeError
+        self.graph = graph
         self._neighbours: dict[Node, int] = {} # Node -> times it is connected to self.
         self.edges: list[Edge] = []
         self.id = id_            
 
-    def _add_neighbour(self, n: Node):
+    def _increment_neighbour_count(self, n: Node):
         """Increment neighbour dict count"""
         if n in self._neighbours:
             self._neighbours[n] += 1
             return
         self._neighbours[n] = 1
 
-    def _remove_neighbour(self, n: Node):
+    def _decrement_neighbour_count(self, n: Node):
         """Decrement neighbour dict count"""
         self._neighbours[n] -= 1  
+
+    def _break_connections(self):
+        for e in self.edges:
+            e._disconnect_node(self) # it will decrement appropriate neighbour counters
 
     @property
     def neighbours(self) -> dict[Node, int]:
