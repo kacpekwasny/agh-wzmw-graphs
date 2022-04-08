@@ -21,14 +21,13 @@ class SimpleEdge(Edge):
         """
         super()._disconnect_node(n_old)
 
-
-    """
-    Compare two edges:
-
-        returns:
-            self and other connects two same nodes
-    """
     def equal_to(self, other: SimpleEdge) -> bool:
+        """
+        Compare two edges:
+
+            returns:
+                self and other connects two same nodes
+        """
         sn, on = self.nodes, other.nodes
         if (sn[0] == on[0] and sn[1] == on[1]
          or sn[0] == on[1] and sn[1] == on[0]):
