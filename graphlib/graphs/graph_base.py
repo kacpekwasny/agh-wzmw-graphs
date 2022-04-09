@@ -162,9 +162,15 @@ class GraphBase:
     @inherit_docstring(_nodes_are_members)
     def nodes_are_members(self, *nodes: node.Node): return self._nodes_are_members(*nodes)
 
+
+    ###############
+    # Other METHODS
     def deepcopy(self):
+        "return deepcopy self"
         return deepcopy(self)
 
+    ############################################
+    # METHODS to be implemented by child classes
     def connect_two_nodes(self, n1: node.Node, n2: node.Node) -> edge.Edge:
         "Create an edge between two nodes"
         raise NotImplementedError
