@@ -56,11 +56,10 @@ class TNEGraph(GraphBase):
                     - At least one node is not a memeber of graph
         """
         self._nodes_are_members(n1, n2)
-        e: se.SimpleEdge
-        for e in n1.edges:
-            if (e.n1 == n1 and e.n2 == n2
-             or e.n1 == n2 or e.n2 == n1):
-                self.remove_edges(e)
+        self.remove_edges(*[e for e in n1.edges
+                                        if (e.n1 == n1 and e.n2 == n2
+                                         or e.n1 == n2 or  e.n2 == n1)])
+        
 
     def create_path(self, *nodes: node.Node) -> None:
         """
