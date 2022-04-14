@@ -50,7 +50,5 @@ class TestSimpleFullGraph(unittest.TestCase):
             self.assertEqual(self.full_graph.default_weight, e.weight, "Weight is not as the default one")
 
 
-
-
 if __name__ == "__main__":
     unittest.main()
