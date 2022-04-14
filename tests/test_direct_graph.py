@@ -11,19 +11,20 @@ class TestDirectGraph(unittest.TestCase):
         nodes_num = 20
         multigraph=False
         dg = DirectedGraph(multigraph=multigraph)
-        nodes = [dg.add_node() for _ in range(nodes_num)]
-        c = nodes.pop()
-        while nodes:
-            for n in nodes:
-                dg.connect_nodes(c, n)
-                dg.connect_nodes(n, c)
-            c = nodes.pop()
+        nodes = dg.add_nodes(nodes_num)
+
+        # fully connected graph
+        for n in nodes:
+            for n1 in nodes:
+                if n is n1: continue
+                dg.connect_two_nodes(n, n1)
 
         self.multigraph = multigraph
         self.nodes_num = nodes_num
         self.digraph = dg
 
     def test_number_of_edges(self):
+        # expecting a double full graph: there are two edges between any two nodes
         self.assertEqual(len(self.digraph.E), (self.nodes_num * (self.nodes_num - 1)),
             "fail if number of edges is different than LOUD predicts")
 
@@ -34,7 +35,7 @@ class TestDirectGraph(unittest.TestCase):
 
     def test_disconnect_all_nodes(self):
         for e in self.digraph.E[:]:
-            self.digraph.remove_edge(e)
+            self.digraph.remove_edges(e)
         self.assertEqual(len(self.digraph.E), 0, "should have removed all edges")
 
         
@@ -52,36 +53,28 @@ class TestDirectGraph(unittest.TestCase):
             for n2 in self.digraph.V:
                 if n1 is n2:
                     continue
-                self.assertEqual(len(self.digraph.get_directed_edges(n1, n2)), 1, "Should be only one directional edge connecting these two nodes.")
-
-
+                self.assertEqual(len(self.digraph.get_directed_edges(n1, n2)),
+                                 1,
+                                 "Should be only one directional edge connecting these two nodes.")
 
     def test_cannot_create_two_equal_edges(self):
-        n1 = self.digraph.add_node()
-        n2 = self.digraph.add_node()
+        n1, n2 = self.digraph.add_nodes(2)
         try:
-            self.digraph.connect_nodes(n2, n1)
-            self.digraph.connect_nodes(n2, n1)
+            self.digraph.connect_two_nodes(n2, n1)
+            self.digraph.connect_two_nodes(n2, n1)
         except GraphError:
-            if self.multigraph:
-                self.assertEqual(1, 2, "It should BE possible to create as many equal edges as one wants.")
+            self.assertFalse(self.multigraph, "It should BE possible to create as many equal edges as one wants.")
             return
-        if not self.multigraph:
-            self.assertEqual(1, 2, "It should NOT BE possible to create two edges between two same nodes with same direction.")
+        self.assertTrue(self.multigraph, "It should NOT BE possible to create two edges between two same nodes with same direction.")
 
     def test_cannot_create_loop(self):
-        n1 = self.digraph.add_node()
+        [n1] = self.digraph.add_nodes(1)
         try:
-            self.digraph.connect_nodes(n1, n1)
+            self.digraph.connect_two_nodes(n1, n1)
         except GraphError:
-            if self.multigraph:
-                self.assertEqual(1, 2, "It should BE possible to create an edge loop (connect n1 to n1).")
+            self.assertFalse(self.multigraph, "It should BE possible to create an edge loop (connect n1 to n1).")
             return
-        if not self.multigraph:
-            self.assertEqual(1, 2, "It should NOT be possible to create an edge loop (connect n1 to n1).")
-    
-
-            return
+        self.assertTrue(self.multigraph, "It should NOT be possible to create an edge loop (connect n1 to n1).")
 
 
 if __name__ == "__main__":

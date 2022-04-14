@@ -103,8 +103,9 @@ class GraphBase:
             raise NodeNotMemberOfGraphError
         for n in nodes:
             n._break_connections()
-            if remove:
+            if remove: # only discconnect or also remove node entirely?
                 self.V.remove(n)
+            
 
     def _remove_edges(self, *edges: edge.Edge):
         """

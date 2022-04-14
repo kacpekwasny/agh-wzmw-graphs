@@ -21,11 +21,9 @@ class TestMultiGraph(unittest.TestCase):
     def create_cycle(self) -> None:
         nodes_num = 20
         G = Multigraph()
-        nodes = [G.add_node() for _ in range(nodes_num)]
+        nodes = G.add_nodes(nodes_num)        
         
-        for i, n in enumerate(nodes[:-1]):
-            G.connect_nodes(n, G.V[i+1])
-        G.connect_nodes(G.V[0], G.V[-1])
+        G.create_path(*nodes, nodes[0])
 
         self.nodes_num = nodes_num
         self.graph = G
@@ -33,34 +31,30 @@ class TestMultiGraph(unittest.TestCase):
     def create_double_cycle(self) -> None:
         nodes_num = 20
         G = Multigraph()
-        nodes = [G.add_node() for _ in range(nodes_num)]
-        
-        for i, n in enumerate(nodes[:-1]):
-            G.connect_nodes(n, G.V[i+1])
-            G.connect_nodes(n, G.V[i+1])
-        G.connect_nodes(G.V[0], G.V[-1])
-        G.connect_nodes(G.V[0], G.V[-1])
+        nodes = G.add_nodes(nodes_num)
 
+        G.create_path(*nodes, nodes[0])
+        G.create_path(*nodes, nodes[0])
+        
         self.nodes_num = nodes_num
         self.graph = G
 
     def create_path(self) -> None:
         nodes_num = 20
         G = Multigraph()
-        nodes = [G.add_node() for _ in range(nodes_num)]
+        nodes = G.add_nodes(nodes_num)
         
         for i, n in enumerate(nodes[:-1]):
-            G.connect_nodes(n, G.V[i+1])
+            G.connect_two_nodes(n, G.V[i+1])
 
         # first and last are not connected.
         
         self.nodes_num = nodes_num
         self.graph = G
 
-    def create_unconnected_graph(self) -> None:
+    def create_unconnected_graph(self, nodes_num=2) -> None:
         self.graph = Multigraph()
-        self.graph.add_node()
-        self.graph.add_node()
+        self.graph.add_nodes(nodes_num)
 
     def create_unconnected_graph_big(self) -> None:
         self.graph = Multigraph()
@@ -103,7 +97,7 @@ class TestMultiGraph(unittest.TestCase):
         self.found_euler_path_is_euler_path(found_path, self.graph)
 
 
-    def found_euler_path_is_euler_path(self, found_path: list[Node, SimpleEdge], graph: Multigraph):
+    def found_euler_path_is_euler_path(self, found_path: list[Node | SimpleEdge], graph: Multigraph):
         self.assertEqual(found_path[0], found_path[-1], "Last and first node should be the same.")
         edges = graph.E[:]
         prev_nodes = graph.V[:]

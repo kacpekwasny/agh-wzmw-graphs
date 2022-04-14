@@ -44,7 +44,7 @@ class FindEulerPath(Algo):
             # check if the edge we will attempt to use is a bridge
             # TODO insted of creating a deep copy, remove the edge, check if is_connected, then <to be thought through, either added back, or not>
             g = self.graph.deepcopy()
-            g._remove_edge(g.get_edges(e.id)[0])
+            g.remove_edges(g.get_edges(e.id)[0])
             conn = IsConnected()
             if conn.solve(g).return_value():
                 edge_to_remove = e
@@ -57,7 +57,7 @@ class FindEulerPath(Algo):
         self.path.append(self.original_graph.get_nodes(self.current_node.id)[0])
         self.path.append(self.original_graph.get_edges(edge_to_remove.id)[0])
         self.current_node = [n for n in edge_to_remove.nodes if n is not self.current_node][0]
-        self.graph._remove_edge(edge_to_remove)
+        self.graph.remove_edges(edge_to_remove)
         self.edges_used.append(edge_to_remove)
         if len(self.old_node.edges) == 0:
             # this node is isolated, remove it, so it wont interfere with checking whether the graph is_connected

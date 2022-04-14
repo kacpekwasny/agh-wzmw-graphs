@@ -11,12 +11,12 @@ class TestMultiGraph(unittest.TestCase):
         nodes_num = 20
         multigraph=False
         mg = Multigraph()
-        nodes = [mg.add_node() for _ in range(nodes_num)]
+        nodes = mg.add_nodes(nodes_num)
         c = nodes.pop()
         while nodes:
             for n in nodes:
-                mg.connect_nodes(c, n)
-                mg.connect_nodes(n, c)
+                mg.connect_two_nodes(c, n)
+                mg.connect_two_nodes(n, c)
             c = nodes.pop()
 
         self.multigraph = multigraph
@@ -34,7 +34,7 @@ class TestMultiGraph(unittest.TestCase):
 
     def test_disconnect_all_nodes(self):
         for e in self.multigraph.E[:]:
-            self.multigraph.remove_edge(e)
+            self.multigraph.remove_edges(e)
         self.assertEqual(len(self.multigraph.E), 0, "should have removed all edges")
 
         for n in self.multigraph.V:
@@ -47,11 +47,10 @@ class TestMultiGraph(unittest.TestCase):
             self.assertEqual(0, neigh_sum, "The multigraph shuld have been completely disconnected, and all neighbour values should've been 0.")
 
     def test_can_create_two_equal_edges(self):
-        n1 = self.multigraph.add_node()
-        n2 = self.multigraph.add_node()
+        n1, n2 = self.multigraph.add_nodes(2)
         try:
-            self.multigraph.connect_nodes(n2, n1)
-            self.multigraph.connect_nodes(n2, n1)
+            self.multigraph.connect_two_nodes(n2, n1)
+            self.multigraph.connect_two_nodes(n2, n1)
         except GraphError:
             self.assertEqual(1, 2, "It should BE possible to create as many equal edges as one wants.")
 

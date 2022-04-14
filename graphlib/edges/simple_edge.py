@@ -4,12 +4,12 @@ from ..nodes.node import Node
 from .edge import Edge
 
 class SimpleEdge(Edge):
-    def __init__(self, n1: Node, n2: Node) -> None:
+    def __init__(self, graph, n1: Node, n2: Node) -> None:
         # it just might be usefull, to have aliases
         # AND cleaner
         self.n1 = n1
         self.n2 = n2
-        super().__init__(n1, n2)
+        super().__init__(graph, n1, n2)
     
     def __str__(self) -> str:
         return f"{self.n1.id}<=>{self.n2.id}"

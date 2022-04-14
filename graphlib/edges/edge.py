@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 class Edge:
     def __init__(self, graph, *nodes: Node) -> None:
-        self
+        self.graph = graph
         self.nodes: list[Node] = []
         
         self.id = None

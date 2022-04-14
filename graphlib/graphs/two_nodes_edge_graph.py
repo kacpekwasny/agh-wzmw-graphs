@@ -20,13 +20,15 @@ class TNEGraph(GraphBase):
         self.allow_loops = allow_loops
         "When creatin a new connection, check, if the new edge will be a loop"
 
-    def disconnect_nodes_from_edges(self, *n: node.Node):
+    def disconnect_nodes_from_edges(self, *nodes: node.Node):
         """
         Take nodes, and for every one, disconnect it from its edges.
         """
-        return super().remove_nodes(*n, remove=False)
+        for n in nodes:
+            for e in n.edges:
+                e._disconnect_all_nodes()
 
-    def connect_two_nodes(self, n1: node.Node, n2: node.Node):
+    def connect_two_nodes(self, n1: node.Node, n2: node.Node, *, edge_cls=se.SimpleEdge):
         """
         Create an edge between two nodes according to rules set by:
         self.allow_multigraph and self.allow_loops.
@@ -36,9 +38,10 @@ class TNEGraph(GraphBase):
         if not self.allow_loops and n1 is n2:
             raise CannotCreateLoopGraphError
 
-        new_e = se.SimpleEdge(n1, n2) # Important, this type of graph, as edges uses SimpleEdge not the Edge class.
+        new_e = edge_cls(self, n1, n2) # Important, this type of graph, as edges uses SimpleEdge not the Edge class.
         for e in self.E:
             if not self.allow_multigraph and new_e.equal_to(e):
+                new_e._disconnect_all_nodes()
                 raise NodesAllreadyConnectedGraphError
         super().add_edges(new_e)
 

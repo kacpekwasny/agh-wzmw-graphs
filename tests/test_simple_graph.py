@@ -17,11 +17,11 @@ class TestSimpleFullGraph(unittest.TestCase):
     def setUp(self) -> None:
         nodes_num = 20
         sg = SimpleGraph()
-        nodes = [sg.add_node() for _ in range(nodes_num)]
+        nodes = sg.add_nodes(nodes_num)
         c = nodes.pop()
         while nodes:
             for n in nodes:
-                sg.connect_nodes(c, n)
+                sg.connect_two_nodes(c, n)
             c = nodes.pop()
 
         self.nodes_num = nodes_num
@@ -38,7 +38,7 @@ class TestSimpleFullGraph(unittest.TestCase):
     
     def test_disconnect_all_nodes(self):
         for e in self.full_graph.E[:]:
-            self.full_graph.remove_edge(e)
+            self.full_graph.remove_edges(e)
         self.assertEqual(len(self.full_graph.E), 0, "should have removed all edges")
         
         for n in self.full_graph.V:
@@ -51,19 +51,18 @@ class TestSimpleFullGraph(unittest.TestCase):
             self.assertEqual(0, neigh_sum, "The full_graph shuld have been completely disconnected, and all neighbour values should've been 0.")
 
     def test_cannot_create_two_equal_edges(self):
-        n1 = self.full_graph.add_node()
-        n2 = self.full_graph.add_node()
-        self.full_graph.connect_nodes(n1, n2)
+        n1, n2 = self.full_graph.add_nodes(2)
+        self.full_graph.connect_two_nodes(n1, n2)
         try:
-            self.full_graph.connect_nodes(n2, n1)
+            self.full_graph.connect_two_nodes(n2, n1)
         except GraphError:
             return
         self.assertEqual(1, 2, "It should not be possible to create two edges between two same nodes in a SimpleGraph.")
 
     def test_cannot_create_loop(self):
-        n1 = self.full_graph.add_node()
+        [n1] = self.full_graph.add_nodes(1)
         try:
-            self.full_graph.connect_nodes(n1, n1)
+            self.full_graph.connect_two_nodes(n1, n1)
         except GraphError:
             return
         self.assertEqual(1, 2, "It should NOT be possible to create an edge loop (connect n1 to n1).")

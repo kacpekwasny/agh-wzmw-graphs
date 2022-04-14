@@ -9,10 +9,10 @@ if TYPE_CHECKING:
     from ..nodes.node import Node
 
 class DirectedEdge(Edge):
-    def __init__(self, from_: Node, to: Node) -> None:
+    def __init__(self, graph, from_: Node, to: Node) -> None:
         self.from_ = from_
         self.to = to
-        super().__init__(from_, to)
+        super().__init__(graph, from_, to)
     
     def __str__(self) -> str:
         return f"{self.from_.id}=>{self.to.id}"
@@ -29,9 +29,8 @@ class DirectedEdge(Edge):
             returns:
                 bool - this edge allows flow from_ -> to
         """
-        if not (from_ in self.nodes and to in self.nodes):
-            return NodeNotMemberOfEdgeError
-        return from_ == self.from_ and to == self.to
+        return (from_ is self.from_
+               and to is self.to)
 
 
 
