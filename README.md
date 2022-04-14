@@ -21,7 +21,7 @@ G = SimpleGraph()
 n0, n1, n2, n3 = G.add_nodes(4)
 
 G.create_path(n0, n1, n2, n3)
-G.connect_nodes(n1, n3)
+G.connect_two_nodes(n1, n3)
 
 for edge in G.E:
     print(str(edge))
@@ -61,13 +61,13 @@ e4, e2 = graph.get_edges(4, 2)
 # the method returns a list, but when the number of elements in the list mathes number of variables I want to assign them to they are unpacked and ussigned to them, much like with a tuple.
 
 # Create one node, and return it.
-n1: Node = graph.add_node()
+[n1] = graph.add_nodes(1)
 
 # Create n nodes and return list of them
 n2, n3 = graph.add_nodes(2)
 
 # Create an edge between two nodes.
-graph.connect_nodes(n1, n3)
+graph.connect_two_nodes(n1, n3)
 
 # Find edge that connects these two nodes, and remove it.
 graph.disconnect_nodes(n1, n2)
@@ -75,14 +75,11 @@ graph.disconnect_nodes(n1, n2)
 # Create a path connecting these nodes, in the specified order.
 graph.create_path(n1, n2, n3)
 
-# Just like above, but as argument takes id's of nodes.
-graph.create_path_ids(0, 1, 2) 
-
 # Remove edge - disconnect nodes that are connected with this edge.
-graph.remove_edge(e)
+graph.remove_edges(e2, e4)
 
 # Disconnect this node from all edges it has, remove it from graph.V. Object is permanently deleted.
-graph.remove_node(n)
+graph.remove_nodes(n1, n3)
 
 # Create a deep copy of the object.
 graph.deepcopy()
@@ -95,8 +92,8 @@ graph.deepcopy()
 mgraph = Multigraph()
 mgraph.add_nodes(2)
 n1, n2 = mgraph.get_nodes(0, 1)
-mgraph.connect_nodes(n1, n2)
-mgraph.connect_nodes(n1, n2) # This line would throw an error if we were working with a SimpleGraph, but it wont, beacuse Multigraph allows multiple edges between two same nodes.
+mgraph.connect_two_nodes(n1, n2)
+mgraph.connect_two_nodes(n1, n2) # This line would throw an error if we were working with a SimpleGraph, but it wont, beacuse Multigraph allows multiple edges between two same nodes.
 ```
 
 
@@ -111,30 +108,27 @@ n = Node()
 #  ~~~~~~ GOOD ~~~~~~~~~
 # You create a node by first creating a graph, and only then do you use an appropriate method on this graph to create a Node associated with this graph.
 graph = SimpleGraph()
-n = graph.add_node()  # This is the proper way.
-n1 = graph.add_node() # graph has two nodes
+n1, n2 = graph.add_nodes(2)  # This is the proper way.
 
-# Create and edge between n and n1
-n._increment_neighbour_count(n1) # Take as an argument a node from the 'graph' variable
-# the newly created edge is accesible by:
-e = graph.E[-1]
+# the graph parent
+n1.graph
 
 # int that represents how many neighbours does the node have
-n.num_neighbours
+n1.num_neighbours
 
 # dict[Node, int] Represents how many connections to a neighbouring node this node has.
-n.neighbours
+n1.neighbours
 
 # list[Edge] list of edges this node is a member of.
-n.edges
+n1.edges
 
 # id of the node.
-n.id
+n1.id
 ```
 
 #### Edge - <pl: krawędź>
 ```py
-graph.connect_nodes(n1, n2)
+graph.connect_two_nodes(n1, n2)
 new_edge = graph.E[-1]
 
 # id of the edge. every new edge gets an incremented id.
@@ -180,7 +174,7 @@ dg = DirectedGraph()
 from_node, to_node = dg.add_nodes(2)
 
 # This method is different from previous because the order of nodes as arugments is important
-dg.connect_nodes(from_node, to_node)
+dg.connect_two_nodes(from_node, to_node)
 
 # It does not introduce any new methods, but it uses DirectedEdge, which has different
 directed_edge: DirectedEdge = dg.E[-1]
