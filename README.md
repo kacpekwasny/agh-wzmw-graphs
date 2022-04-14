@@ -200,3 +200,39 @@ print(str(directed_edge))
 >>> 0 => 1
 
 ```
+
+
+#### WeightedEdge - <pl: krawęź z wagami / parametrami>
+##### It has a direction
+```py
+# The weight, flow, and capacity don't change anything
+# they will allow one to write algorithms that depend on such params.
+# Dijkstra's algo and such...
+we = WeightedEdge(graph, n1, n2,
+                weight=10,
+                flow=12,
+                capacity=20)
+
+we.weight
+we.flow
+we.capacity
+
+```
+
+
+#### WeightedGraph
+##### Every edge of this graph has fields as shown above
+```py
+wg = WeightedGraph(allow_multigraph=True, allow_loops=False,
+                    default_weight=1, default_flow=1, default_capacity=2)
+n1, n2 = wg.add_nodes(2)
+
+# weight, flow, and capacity will have the default values, as specified in initialization
+wg.connect_two_nodes(n1, n2)
+
+# specify weight flow and capacity for this edge
+wg.connect_two_nodes(n1, n2,
+                    weight=10,
+                    flow=12,
+                    capacity=20)
+```
