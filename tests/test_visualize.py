@@ -54,7 +54,7 @@ class TestSimpleFullGraph(unittest.TestCase):
 
     #@unittest.skip
     def test_euler_path_visualization(self):
-        self.setUp(nodes_num=5)
+        self.setUp(nodes_num=6)
         fep = FindEulerPath()
         fep.prepare(self.full_graph)
         fep.visualize()

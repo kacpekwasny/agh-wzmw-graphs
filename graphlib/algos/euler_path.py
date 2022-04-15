@@ -17,6 +17,7 @@ class FindEulerPath(Algo):
     # Visualization variables
     visualize_on = False
     visual: VisualizeGraph
+    edge_check_time = 0.5
 
     def prepare(self, graph: GraphBase):
         self.original_graph = graph
@@ -39,10 +40,7 @@ class FindEulerPath(Algo):
             self.current_node.radius = self.visual.node_radius * 6/5
             old_node = self.current_node
             self.visual.clear()
-            self.visual.draw_graph()
-            old_node.radius *= 5/6
-            old_node.color = self.visual.node_color
-            
+            self.visual.draw_graph()            
 
         if len(self.graph.E) == 0:
             self.path.append(self.original_graph.get_nodes(self.current_node.id)[0])
@@ -62,10 +60,34 @@ class FindEulerPath(Algo):
             g = self.graph.deepcopy()
             g.remove_edges(g.get_edges(e.id)[0])
             conn = IsConnected()
+            if self.visualize_on:
+                e.color = (200, 200, 200)
+                self.visual.clear()
+                self.visual.draw_graph()
+                e.color = self.visual.edge_color
+                sleep(self.edge_check_time)
+
             if conn.solve(g).return_value():
+                if self.visualize_on:
+                    e.color = (0, 255, 70)
+                    self.visual.clear()
+                    self.visual.draw_graph()
+                    e.color = self.visual.edge_color
+                    sleep(self.edge_check_time)
+
                 edge_to_remove = e
                 break
-        
+    
+            if self.visualize_on:
+                e.color = (255, 0, 0)
+                self.visual.clear()
+                self.visual.draw_graph()
+                e.color = self.visual.edge_color
+                sleep(self.edge_check_time)
+
+        old_node.radius *= 5/6
+        old_node.color = self.visual.node_color
+
         # Only an edge, that is a bridge is left, so we must take it, as there is no other left.
         if edge_to_remove is None:
             edge_to_remove = self.current_node.edges[0]
