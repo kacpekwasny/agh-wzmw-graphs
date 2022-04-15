@@ -16,7 +16,14 @@ class Node:
         self.graph = graph
         self._neighbours: dict[Node, int] = {} # Node -> times it is connected to self.
         self.edges: list[Edge] = []
-        self.id = id_            
+        self.id = id_
+
+        # visualization settings
+        self.color = None # can be overwritten by tuple[int] of length 3
+        self.radius = None # can be overwritten by an int
+        self.xy = None # coordinates of where the node is to be displayed. They will be
+        self.user_defined_cords = False # For this node Visualize will automatically set coords
+        self.to_visualize = "" # string to be displayed by visualize
 
     def _increment_neighbour_count(self, n: Node):
         """Increment neighbour dict count"""

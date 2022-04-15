@@ -17,6 +17,11 @@ class Edge:
         
         for n in nodes:
             self._connect_node(n)
+        
+        # for visualization purposes
+        self.color = None
+        self.width = None
+        self.to_visualize = ""
 
     def __str__(self) -> str:
         return "".join([f"{n.id}, " for n in self.nodes]) +  "\b\b"
