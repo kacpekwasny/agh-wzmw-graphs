@@ -1,6 +1,8 @@
 import enum
+from time import sleep
 
 from graphlib.edges.simple_edge import SimpleEdge
+from graphlib.visualization.visualize import VisualizeGraph
 
 from ..nodes.node import Node
 from ..edges.edge import Edge
@@ -12,12 +14,16 @@ from graphlib.edges import edge
 
 class FindEulerPath(Algo):
     
+    # Visualization variables
+    visualize_on = False
+    visual: VisualizeGraph
+
     def prepare(self, graph: GraphBase):
         self.original_graph = graph
         self.graph = graph.deepcopy()
         self.edges = self.graph.E[:]
         self.edges_used: list[Edge] = []
-        self.path: list[Edge, Node] = []
+        self.path: list[Edge | Node] = []
         self.current_node = self.graph.V[0]
         self.success = None
 
@@ -28,6 +34,16 @@ class FindEulerPath(Algo):
         returns:
             bool:  <the algorithm is NOT completed> True for not completed, False for completed.
         """
+        if self.visualize_on:
+            self.current_node.color = (0, 255, 0)
+            self.current_node.radius = self.visual.node_radius * 6/5
+            old_node = self.current_node
+            self.visual.clear()
+            self.visual.draw_graph()
+            old_node.radius *= 5/6
+            old_node.color = self.visual.node_color
+            
+
         if len(self.graph.E) == 0:
             self.path.append(self.original_graph.get_nodes(self.current_node.id)[0])
             self.success = True
@@ -66,6 +82,23 @@ class FindEulerPath(Algo):
 
     def return_value(self) -> bool:
         return self.path
+
+    def visualize(self, *, wait=1000):
+        """
+            params:
+                wait [ms], before next step
+        """
+        self.visualize_on = True
+        v = VisualizeGraph(self.graph)
+        v.recalculate()
+        v.pygame_init()
+        v.clear()
+        v.draw_graph()
+        self.visual = v
+        while self.next(): sleep(wait/1000)
+        self.visualize_on = False
+
+
 
     def __str__(self) -> str:
         ret = ""
